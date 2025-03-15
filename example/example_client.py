@@ -11,8 +11,8 @@ class Client(Request):
      ):
         super().__init__(api_key, api_version, api_host, user_agent)
 
-    def info(self, link: str, params: dict = {}) -> Response:
-        return self.request(link, 'POST', params)
+    def info(self, url: str, params: dict = {}) -> Response:
+        return self.request(url, 'POST', params)
 
 
 c = Client("abc")
