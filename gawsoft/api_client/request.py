@@ -9,6 +9,8 @@ from .response import Response
 
 
 class Request:
+    # Timeout in seconds
+    _request_timeout: Union[Tuple[int, int], int] = 30
 
     def __init__(self, api_key, api_version='v1', api_host ='http://api.example.com', user_agent='Api Python client'):
         '''
@@ -69,7 +71,6 @@ class Request:
             headers: Optional[Dict[str, str]]=None,
             body: Optional[Union[bytes, Dict]] = None,
             post_params=None,
-            _request_timeout: Union[Tuple[int, int ], int] = 30
     ) -> Response:
         '''
         Execute raw request to server
@@ -86,8 +87,6 @@ class Request:
             Raw body for post query
         :param post_params:
             When send application/x-www-form query set this attribute
-        :param _request_timeout:
-            Timeout in seconds
         :return: Response
         '''
 
@@ -106,12 +105,12 @@ class Request:
 
         #timeout
         timeout: Tuple[int, int] = (2, 5)
-        if _request_timeout is not None:
-            if isinstance(_request_timeout, (int, ) if six.PY3 else (int)):  # noqa: E501,F821
-                timeout = (2, _request_timeout)
-            elif (isinstance(_request_timeout, tuple) and
-                  len(_request_timeout) == 2):
-                timeout = (_request_timeout[0],_request_timeout[1])
+        if self._request_timeout is not None:
+            if isinstance(self._request_timeout, (int, ) if six.PY3 else (int)):  # noqa: E501,F821
+                timeout = (2, self._request_timeout)
+            elif (isinstance(self._request_timeout, tuple) and
+                  len(self._request_timeout) == 2):
+                timeout = (self._request_timeout[0], self._request_timeout[1])
 
         #set default content type
         if 'Content-Type' not in headers:
