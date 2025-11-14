@@ -17,12 +17,12 @@ class ApiException(Exception):
         """Custom error messages for exception"""
         error_message = "({0})\nReason: {1}\n".format(self.status, self.reason)
 
-        # Check if headers exist before including them in the message
-        if self.headers:
-            error_message += "HTTP response headers: {0}\n".format(self.headers)
-
         # Check if body exists before including it in the message
         if self.body:
             error_message += "HTTP response body: {0}\n".format(self.body)
+
+        # Check if headers exist before including them in the message
+        if self.headers:
+            error_message += "HTTP response headers: {0}\n".format(self.headers)
 
         return error_message

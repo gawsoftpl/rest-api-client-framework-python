@@ -176,17 +176,21 @@ class Request:
 
         response = Response(r)
 
+        data = ""
+        if response.is_json():
+            data = response.data()
+
         if response.status_code == 404:
-            raise ApiException('Error 404. Not found')
+            raise ApiException(status=404, reason='Error 404. Not found', http_resp=response)
 
         if response.status_code == 401:
-            raise ApiException("Error 401. Cant authorize. Check your api token")
+            raise ApiException(status=401, reason="Error 401. Cant authorize. Check your api token", http_resp=response)
 
-        if response.status_code == 500:
-            raise ApiException("Internal error")
+        if response.status_code == 403:
+            raise ApiException(status=403, reason="Error 403. Forbidden", http_resp=response)
 
-        if not 200 <= response.status_code <= 400:
-            raise ApiException(http_resp=response)
+        if response.status_code >= 300:
+            raise ApiException(status=response.status_code, reason=data, http_resp=response)
 
         return response
 

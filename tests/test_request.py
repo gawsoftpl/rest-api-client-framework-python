@@ -30,9 +30,10 @@ def test_send_post_request_with_400_response(
 ):
     httpserver.expect_request('/data', method="POST").respond_with_json({"foo": "bar"}, 400)
 
-    response = request_client.request("/data", "POST")
-    assert response.status_code == 400
-    assert response.data() == {"foo": "bar"}
+    with pytest.raises(ApiException):
+        response = request_client.request("/data", "POST")
+        assert response.status_code == 400
+        assert response.data() == {"foo": "bar"}
 
 def test_get_request_with_params(
     request_client: Request,
