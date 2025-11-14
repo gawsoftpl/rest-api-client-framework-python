@@ -130,7 +130,7 @@ class Response(io.IOBase):
                 add_extension = True
 
         save_path = path
-        if add_extension:
+        if add_extension and ext is not None:
             save_path = path + '.' +ext
 
         if ext not in ['json']:
