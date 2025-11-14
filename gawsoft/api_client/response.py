@@ -100,11 +100,11 @@ class Response(io.IOBase):
         dirs = path.split('/')
         if len(dirs) > 0:
             ext_s = dirs[-1].split('.')
-            if len(ext_s) > 0:
+            if len(ext_s) > 1:
                 ext = ext_s[-1]
 
-        add_ext_to_path = False
-        if not ext and ext in ['json','png','jpg','pdf','webp',"webm","mp4","avi", "gif"]:
+        add_extension = False
+        if not ext or len(ext) == 0:
             content_type = self.header('content-type')
             if content_type is not None:
                 if 'jpeg' in content_type:
@@ -125,13 +125,12 @@ class Response(io.IOBase):
                     ext = 'mp4'
                 elif 'avi' in content_type:
                     ext = 'avi'
-            add_ext_to_path = True
 
-        if not ext:
-            raise ApiException("Unknown file extension to save")
+            if ext is not None and len(ext) > 0:
+                add_extension = True
 
         save_path = path
-        if(add_ext_to_path):
+        if add_extension:
             save_path = path + '.' +ext
 
         if ext not in ['json']:
