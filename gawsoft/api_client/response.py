@@ -104,20 +104,27 @@ class Response(io.IOBase):
                 ext = ext_s[-1]
 
         add_ext_to_path = False
-        if not (ext and ext in ['json','png','jpg','pdf','webp']):
+        if not ext and ext in ['json','png','jpg','pdf','webp',"webm","mp4","avi", "gif"]:
             content_type = self.header('content-type')
             if content_type is not None:
                 if 'jpeg' in content_type:
                     ext = 'jpg'
                 elif 'png' in content_type:
                     ext = 'png'
+                elif 'gif' in content_type:
+                    ext = 'gif'
                 elif 'pdf' in content_type:
                     ext = 'pdf'
                 elif 'json' in content_type:
                     ext = 'json'
                 elif 'webp' in content_type:
                     ext = 'webp'
-
+                elif 'webm' in content_type:
+                    ext = 'webm'
+                elif 'mp4' in content_type:
+                    ext = 'mp4'
+                elif 'avi' in content_type:
+                    ext = 'avi'
             add_ext_to_path = True
 
         if not ext:
