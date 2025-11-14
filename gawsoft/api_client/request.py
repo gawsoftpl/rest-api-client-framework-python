@@ -58,7 +58,6 @@ class Request:
 
         #production url
         url = urljoin(self.api_host, path)
-        print(url)
 
         return self.execute(method=method, url=url, headers=headers, body=body, query_params=query_params)
 
