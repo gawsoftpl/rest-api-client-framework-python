@@ -8,7 +8,7 @@ dynamic = ["version"]
 description = "Rest Api Client"
 readme = "README.md"
 requires-python = ">=3.8"
-license = { text = "MIT" }
+license = "MIT"
 authors = [
     { name = "Gawsoft.com", email = "contact@gawsoft.com" }
 ]
