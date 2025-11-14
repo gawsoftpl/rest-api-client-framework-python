@@ -23,9 +23,6 @@ classifiers = [
 Homepage = "https://gawsoft.com"
 Repository = "https://github.com/gawsoftpl/rest-api-client-framework-python"
 
-[tool.setuptools]
-namespace-packages = ["gawsoft"]
-
 [tool.setuptools.packages.find]
 include = ["gawsoft.*"]
 
