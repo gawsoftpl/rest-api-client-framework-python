@@ -15,7 +15,7 @@ def httpserver_listen_address():
 
 @pytest.fixture
 def request_client() -> Request:
-    return Request("abc", "v1", "http://127.0.0.1:5050")
+    return Request("abc",  "http://127.0.0.1:5050")
 
 @pytest.fixture
 def response() -> RequestsResponse:

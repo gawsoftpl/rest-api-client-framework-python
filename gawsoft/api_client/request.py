@@ -1,6 +1,7 @@
 import six
 from typing import Dict, Optional, Union, Tuple
 from six.moves.urllib.parse import urlencode
+from urllib.parse import urljoin
 import requests
 
 from .version import __version__
@@ -12,14 +13,12 @@ class Request:
     # Timeout in seconds
     _request_timeout: Union[Tuple[int, int], int] = 30
 
-    def __init__(self, api_key, api_version='v1', api_host ='http://api.example.com', user_agent='Api Python client'):
+    def __init__(self, api_key, api_host ='http://api.example.com', user_agent='Api Python client'):
         '''
         Create Request client object
 
         :param api_key:
             String api key.
-        :param api_version:
-            server api version
         :param api_host:
             server api host
 
@@ -28,7 +27,6 @@ class Request:
             raise Exception("No set API KEY")
 
         self.api_host = api_host
-        self.api_version = api_version
         self.api_key = api_key
         self.user_agent = user_agent
 
@@ -59,7 +57,8 @@ class Request:
         headers['Accept-Encoding'] = 'gzip'
 
         #production url
-        url = self.api_host + '/' + self.api_version  + path
+        url = urljoin(self.api_host, path)
+        print(url)
 
         return self.execute(method=method, url=url, headers=headers, body=body, query_params=query_params)
 

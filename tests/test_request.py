@@ -6,7 +6,7 @@ def test_send_post_request(
     request_client: Request,
     httpserver: HTTPServer
 ):
-    httpserver.expect_request('/v1/data', method="POST").respond_with_json({"foo": "bar"}, 201)
+    httpserver.expect_request('/data', method="POST").respond_with_json({"foo": "bar"}, 201)
 
     response = request_client.request("/data", "POST")
     assert response.status_code == 201
@@ -17,7 +17,7 @@ def test_send_post_request_error_code_429(
     request_client: Request,
     httpserver: HTTPServer
 ):
-    httpserver.expect_request('/v1/data', method="POST").respond_with_json({"foo": "bar"}, 429)
+    httpserver.expect_request('/data', method="POST").respond_with_json({"foo": "bar"}, 429)
 
     with pytest.raises(ApiException):
         response = request_client.request("/data", "POST")
@@ -28,7 +28,7 @@ def test_send_post_request_with_400_response(
     request_client: Request,
     httpserver: HTTPServer
 ):
-    httpserver.expect_request('/v1/data', method="POST").respond_with_json({"foo": "bar"}, 400)
+    httpserver.expect_request('/data', method="POST").respond_with_json({"foo": "bar"}, 400)
 
     response = request_client.request("/data", "POST")
     assert response.status_code == 400
@@ -38,7 +38,7 @@ def test_get_request_with_params(
     request_client: Request,
     httpserver: HTTPServer
 ):
-    httpserver.expect_request('/v1/data', method="GET", query_string={"abc": "1", "def": "aaa"}).respond_with_json({"foo": "bar"})
+    httpserver.expect_request('/data', method="GET", query_string={"abc": "1", "def": "aaa"}).respond_with_json({"foo": "bar"})
 
     response = request_client.request("/data", "GET", query_params={"abc": 1, "def": "aaa"})
     assert response.data() == {"foo": "bar"}
@@ -62,7 +62,7 @@ def test_delete_request_with_params(
     request_client: Request,
     httpserver: HTTPServer
 ):
-    httpserver.expect_request('/v1/data/id1', method="DELETE").respond_with_json({"foo": "bar"})
+    httpserver.expect_request('/data/id1', method="DELETE").respond_with_json({"foo": "bar"})
 
     response = request_client.request("/data/id1", "DELETE")
     assert response.status_code == 200
@@ -72,7 +72,7 @@ def test_put_request_with_params(
     request_client: Request,
     httpserver: HTTPServer
 ):
-    httpserver.expect_request('/v1/data/id1', method="PUT").respond_with_json({"foo": "bar"})
+    httpserver.expect_request('/data/id1', method="PUT").respond_with_json({"foo": "bar"})
 
     response = request_client.request("/data/id1", "PUT", {"abc": 123})
     assert response.status_code == 200
@@ -85,7 +85,7 @@ def test_post_request_with_image(
 ):
 
     httpserver.expect_request(
-        '/v1/upload',
+        '/upload',
         headers = {
           "Content-Type": "image/png"
         },
@@ -104,7 +104,7 @@ def test_get_execute_with_params(
     request_client: Request,
     httpserver: HTTPServer
 ):
-    httpserver.expect_request('/v1/data', method="GET", query_string={"abc": "1", "def": "aaa"}).respond_with_json({"foo": "bar"})
+    httpserver.expect_request('/data', method="GET", query_string={"abc": "1", "def": "aaa"}).respond_with_json({"foo": "bar"})
 
-    response = request_client.execute(url="http://127.0.0.1:5050/v1/data", method="GET", query_params={"abc": 1, "def": "aaa"})
+    response = request_client.execute(url="http://127.0.0.1:5050/data", method="GET", query_params={"abc": 1, "def": "aaa"})
     assert response.data() == {"foo": "bar"}
